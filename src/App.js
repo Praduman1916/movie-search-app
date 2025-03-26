@@ -1,8 +1,6 @@
 
-
 import React, { useState, useCallback } from "react";
 import axios from "axios";
-import debounce from "lodash.debounce";
 import SearchBar from "./components/SearchBar";
 import MovieList from "./components/MovieList";
 import MovieDetail from "./components/MovieDetail";
@@ -17,8 +15,16 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const debounce = (fn, dealy) => {
+    let timer;
+    return ((...args) => {
+      clearTimeout(timer)
+      timer = setTimeout(() => fn(...args), dealy)
+    })
+  }
+
   const searchMovies = async (query) => {
-    if (!query) return; 
+    if (!query) return;
     setLoading(true);
     setError("");
 
